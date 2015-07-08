@@ -13,7 +13,6 @@ matplotlib.rcParams['backend.qt4'] = 'PySide'
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-
 USER = 'griffon'
 PASS = 'CvfhnUtqvp'
 
@@ -73,6 +72,9 @@ def getGraph(host, graph):
     except TypeError, e:
         print e
         print (None, None)
+    except ValueError, e:
+        print e
+        print (None, None)
 
 
 class PlotWidget(FigureCanvas):
@@ -91,6 +93,9 @@ class PlotWidget(FigureCanvas):
         self.axis.set_xlabel(self.xlabel, font)
         self.axis.set_ylabel(self.ylabel, font)
         self.draw()
+
+    def savePlot(self, pngFileName):
+        self.figure.savefig(pngFileName)
 
 
 # noinspection PyPep8Naming
@@ -122,6 +127,8 @@ class MonitorWindow(QWidget, Ui_Monitor):
     def start(self):
         try:
             x, y = getGraph(self.host.text(), GRAPH_RSS)
+            if None == x or None == y:
+                return
             self.plotWidget.plot(x, y)
 
             self.updateTimer.start(1000)
@@ -132,6 +139,8 @@ class MonitorWindow(QWidget, Ui_Monitor):
     def onTimeout(self):
         try:
             x, y = getGraph(self.host.text(), GRAPH_RSS)
+            if None == x or None == y:
+                return
             self.plotWidget.plot(x, y)
         except UnicodeError, e:
             print e
@@ -139,6 +148,8 @@ class MonitorWindow(QWidget, Ui_Monitor):
     def closeEvent(self, e):
         settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         settings.setValue('hostname', self.host.text())
+
+        self.plotWidget.savePlot('test.png')
 
 
 if __name__ == '__main__':
