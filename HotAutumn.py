@@ -43,6 +43,8 @@ GRAPH_RSS = 1
 GRAPH_VRAM = 4
 GRAPH_TOTAL = 6
 
+graphs = [GRAPH_RSS, GRAPH_VRAM, GRAPH_TOTAL]
+
 # noinspection PyTypeChecker
 def getGraph(host, graph):
     try:
@@ -117,7 +119,16 @@ class MonitorWindow(QWidget, Ui_HotAutumn):
         self.plotWidget = PlotWidget(u'Graph rss_pages', u'Time, min', u'rss_pages value')
         self.verticalLayout.insertWidget(2, self.plotWidget)
 
+        self.graphType.currentIndexChanged.connect(self.onGraphTypeChanged)
+        self.plotType = self.getPlotType()
+
         self.host_name = None
+
+    def onGraphTypeChanged(self):
+        self.plotType = self.getPlotType()
+
+    def getPlotType(self):
+        return graphs[self.graphType.currentIndex()]
 
     def keyPressEvent(self, e):
         if e.key() == Qt.Key_Escape:
@@ -126,7 +137,7 @@ class MonitorWindow(QWidget, Ui_HotAutumn):
     # noinspection PyCallByClass,PyCallByClass,PyUnusedLocal
     def start(self):
         try:
-            x, y = getGraph(self.host.text(), GRAPH_RSS)
+            x, y = getGraph(self.host.text(), self.plotType)
             if None == x or None == y:
                 return
             self.plotWidget.plot(x, y)
@@ -138,7 +149,7 @@ class MonitorWindow(QWidget, Ui_HotAutumn):
 
     def onTimeout(self):
         try:
-            x, y = getGraph(self.host.text(), GRAPH_RSS)
+            x, y = getGraph(self.host.text(), self.plotType)
             if None == x or None == y:
                 return
             self.plotWidget.plot(x, y)

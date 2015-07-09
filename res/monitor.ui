@@ -30,6 +30,25 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QComboBox" name="graphType">
+       <item>
+        <property name="text">
+         <string>rss pages</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>vram</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>total</string>
+        </property>
+       </item>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
