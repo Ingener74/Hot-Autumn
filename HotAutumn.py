@@ -5,7 +5,7 @@ from PySide.QtGui import QApplication, QWidget, QMessageBox
 from StringIO import StringIO
 import numpy as np
 import paramiko as paramiko
-from res.monitor import Ui_Monitor
+from res.monitor import Ui_HotAutumn
 
 import matplotlib
 
@@ -99,7 +99,7 @@ class PlotWidget(FigureCanvas):
 
 
 # noinspection PyPep8Naming
-class MonitorWindow(QWidget, Ui_Monitor):
+class MonitorWindow(QWidget, Ui_HotAutumn):
     def __init__(self, app, parent=None):
         QWidget.__init__(self, parent)
         self.setupUi(self)

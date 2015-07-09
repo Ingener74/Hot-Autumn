@@ -1,3 +1,3 @@
 # encoding: utf8
 
-from monitor import (Ui_Monitor)
+from monitor import (Ui_HotAutumn)
