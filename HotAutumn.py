@@ -1,23 +1,36 @@
 # encoding: utf8
 import sys
+from StringIO import StringIO
+
 from PySide.QtCore import Qt, QTimer, QSettings
 from PySide.QtGui import QApplication, QWidget, QMessageBox
-from StringIO import StringIO
+
 import numpy as np
 import paramiko as paramiko
-from res.monitor import Ui_HotAutumn
-
-import matplotlib
 
 matplotlib.rcParams['backend.qt4'] = 'PySide'
+import matplotlib
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-USER = 'griffon'
-PASS = 'CvfhnUtqvp'
+from res.monitor import Ui_HotAutumn
 
-COMPANY = 'ShnaiderSoft'
-APPNAME = 'Monitor'
+"""
+Как обновить внешний вид при его изменнии:
+pyside-uic res/monitor.ui -o res/monitor.py
+
+Установка зависимостей:
+sudo apt-get install python-pyside python-paramiko python-matplotlib
+
+Испозование:
+python HotAutumn.py
+"""
+
+USER = '...'
+PASS = '...'
+
+COMPANY = 'Venus.Games'
+APPNAME = 'HotAutumn'
 
 
 # noinspection PyPep8Naming
@@ -160,7 +173,7 @@ class MonitorWindow(QWidget, Ui_HotAutumn):
         settings = QSettings(QSettings.IniFormat, QSettings.UserScope, COMPANY, APPNAME)
         settings.setValue('hostname', self.host.text())
 
-        self.plotWidget.savePlot('test.png')
+        # self.plotWidget.savePlot('test.png')
 
 
 if __name__ == '__main__':
